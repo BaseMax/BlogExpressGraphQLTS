@@ -48,7 +48,7 @@ Open the .env file and configure the environment variables:
 
 ```makefile
 PORT=3000           # Port on which the server will run
-DB_URI=mongodb://localhost/blog-express-graphql # MongoDB connection URI
+DATABASE_URL=mongodb://localhost/blog-express-graphql # MongoDB connection URI
 SECRET_KEY=your-secret-key # Secret key for JWT authentication
 ```
 
@@ -57,7 +57,9 @@ SECRET_KEY=your-secret-key # Secret key for JWT authentication
 Start the server using the following command:
 
 ```bash
-npm start
+$ tsc
+
+$ npm run dev
 ```
 
 The server should now be running at `http://localhost:3000`. You can access the GraphQL playground at `http://localhost:3000/graphql` to interact with the API and explore available queries and mutations.
