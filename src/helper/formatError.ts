@@ -7,7 +7,7 @@ export function formatError(error: GraphQLError): GraphQLFormattedError {
 
   logger.error(
     `Server error: ${
-      originalError instanceof Error ? originalError.message : originalError
+      originalError
     }`
   );
   const formattedError = {
