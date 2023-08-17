@@ -11,7 +11,7 @@ import { logger } from "./logger/logger";
 import { error } from "console";
 import { AuthResolver } from "./auth/AuthResolver";
 import { GraphQLError } from "graphql";
-
+import { formatError } from "./helper/formatError";
 dotenv.config();
 
 const port = process.env.Port || 3000;
@@ -28,15 +28,16 @@ export async function createServer(): Promise<Express> {
   const server = new ApolloServer({
     schema,
     context: ({ req, res }) => ({ req, res }),
-    formatError: (error: GraphQLError) => {
-      const formattedError = {
-        message: error.message,
-        path: error.path,
-      };
-      return formattedError;
-    },
+    formatError: formatError,
   });
 
+  // (error: GraphQLError) => {
+  //   const formattedError = {
+  //     message: error.message,
+  //     path: error.path,
+  //   };
+  //   return formattedError;
+  // },
   await server.start();
 
   server.applyMiddleware({ app });
