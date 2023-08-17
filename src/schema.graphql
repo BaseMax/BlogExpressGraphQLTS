@@ -13,13 +13,7 @@ type Mutation {
 }
 
 type Query {
-  recipe(title: String!): Recipe
-}
-
-type Recipe {
-  """The recipe description with preparation info"""
-  description: String
-  title: String!
+  recipe(title: String!): AuthPayload
 }
 
 input SignupInput {

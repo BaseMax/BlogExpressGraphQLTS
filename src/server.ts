@@ -3,14 +3,10 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server-express";
-import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
-import { RecipeResolver } from "./blog/blog-resolver";
 import * as path from "path";
 import { logger } from "./logger/logger";
-import { error } from "console";
-import { AuthResolver } from "./auth/AuthResolver";
-import { GraphQLError } from "graphql";
+import { AuthResolver } from "./auth/auth-resolver";
 import { formatError } from "./helper/formatError";
 dotenv.config();
 
@@ -19,7 +15,7 @@ const dbUri = process.env.DATABASE_URI as string;
 
 export async function createServer(): Promise<Express> {
   const schema = await buildSchema({
-    resolvers: [RecipeResolver, AuthResolver],
+    resolvers: [AuthResolver],
     emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
   });
 
@@ -31,13 +27,6 @@ export async function createServer(): Promise<Express> {
     formatError: formatError,
   });
 
-  // (error: GraphQLError) => {
-  //   const formattedError = {
-  //     message: error.message,
-  //     path: error.path,
-  //   };
-  //   return formattedError;
-  // },
   await server.start();
 
   server.applyMiddleware({ app });
