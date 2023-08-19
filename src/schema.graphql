@@ -9,7 +9,7 @@ type AuthPayload {
 }
 
 type Mutation {
-  signup(signupInput: SignupInput!): AuthPayload!
+  signup(input: SignupInput!): AuthPayload!
 }
 
 type Query {

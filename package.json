@@ -36,6 +36,7 @@
     "pino-pretty": "^10.2.0",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.9.1",
+    "tsyringe": "^4.8.0",
     "type-graphql": "^2.0.0-beta.2",
     "typescript": "^5.1.6"
   },

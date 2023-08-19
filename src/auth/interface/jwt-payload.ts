@@ -1,4 +1,4 @@
 export interface JwtPayload {
   readonly name: string;
-  readonly id: string;
+  readonly sub: string;
 }

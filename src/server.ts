@@ -8,6 +8,7 @@ import * as path from "path";
 import { logger } from "./logger/logger";
 import { AuthResolver } from "./auth/auth-resolver";
 import { formatError } from "./helper/formatError";
+import {container} from "./container"
 dotenv.config();
 
 const port = process.env.Port || 3000;
@@ -17,6 +18,7 @@ export async function createServer(): Promise<Express> {
   const schema = await buildSchema({
     resolvers: [AuthResolver],
     emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
+    container: { get: (cls) => container.resolve(cls) },
   });
 
   const app = express();

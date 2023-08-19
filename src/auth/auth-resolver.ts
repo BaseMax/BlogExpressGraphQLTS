@@ -1,15 +1,26 @@
-import { Args, Arg, Mutation, Resolver, Query } from "type-graphql";
+import { Args, Arg, Mutation, Resolver, Query, Ctx } from "type-graphql";
 import { AuthPayload } from "./entity/auth-payload";
-import { SignupArgs, SignupInput } from "./dto/sign-up";
+import { SignupInput } from "./dto/sign-up";
+import { AuthService } from "./auth-service";
+import { injectable } from "tsyringe";
 
+@injectable()
 @Resolver(AuthPayload)
 export class AuthResolver {
-  @Mutation((returns) => AuthPayload)
-  async signup(@Args() signupInput: SignupArgs) {
-    console.log(signupInput.signupInput);
+  constructor(private  authService: AuthService) {}
 
-    // Your signup resolver logic here
-    // Return an instance of AuthPayload
+  @Mutation((returns) => AuthPayload)
+  async signup(
+    @Ctx() ctx: any,
+    @Arg("input", () => SignupInput)
+    input: SignupInput
+  ): Promise<AuthPayload> {
+    console.log(this.authService);
+
+    const auth = await this.authService.signup(input);
+    console.log("here");
+
+    return auth;
   }
 
   @Query((returns) => AuthPayload, { nullable: true })
