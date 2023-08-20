@@ -27,14 +27,13 @@ export class AuthResolver {
   ): Promise<AuthPayload> {
     return await this.authService.login(input);
   }
+
   @Query((returns) => AuthPayload, { nullable: true })
-  async recipe(@Arg("title") title: string): Promise<AuthPayload | undefined> {
-    return { name: "hi there", token: "os" };
-  }
-
-  // @Query((returns) => AuthPayload, { nullable: true })
-  // async getAuthPayload(@Arg("token") token: string): Promise<AuthPayload | undefined> {
-
+  async getAuthPayload(
+    @Arg("token") token: string
+  ): Promise<AuthPayload | undefined> {
+    console.log(token);
     
-  // }
+    return this.authService.getAuthPayloadFromToken(token);
+  }
 }

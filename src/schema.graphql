@@ -19,7 +19,7 @@ type Mutation {
 }
 
 type Query {
-  recipe(title: String!): AuthPayload
+  getAuthPayload(token: String!): AuthPayload
 }
 
 input SignupInput {

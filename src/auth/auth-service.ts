@@ -23,7 +23,7 @@ export class AuthService {
 
     const user = await this.userService.createUser(signupInput);
 
-    const token = await this.getToken({
+    const token = this.getToken({
       sub: user._id,
       name: signupInput.name,
     });
@@ -37,7 +37,7 @@ export class AuthService {
       throw new Error("credentials aren't correct");
     }
 
-    const token = await this.getToken({
+    const token = this.getToken({
       sub: user._id,
       name: user.name,
     });
@@ -45,10 +45,27 @@ export class AuthService {
     return { name: user.name, token: token };
   }
 
+  getAuthPayloadFromToken(token: string): AuthPayload | undefined {
+    try {
+      const secretKey = process.env.SECRET_KEY as string;
 
-  async getToken(jwtPayload: JwtPayload): Promise<string> {
+      const jwtPayload = jwt.verify(token, secretKey) as JwtPayload;
+
+      console.log(jwtPayload);
+      
+      const newToken = this.getToken({
+        sub: jwtPayload.sub,
+        name: jwtPayload.name,
+      });
+      return { token: newToken, name: jwtPayload.name };
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+  getToken(jwtPayload: JwtPayload): string {
     const secretKey = process.env.SECRET_KEY as string;
-    return jwt.sign(jwt, secretKey, {
+
+    return jwt.sign(jwtPayload, secretKey, {
       expiresIn: "1d",
     });
   }
