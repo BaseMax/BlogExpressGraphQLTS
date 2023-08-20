@@ -1,8 +1,9 @@
 import { Args, Arg, Mutation, Resolver, Query, Ctx } from "type-graphql";
 import { AuthPayload } from "./entity/auth-payload";
-import { SignupInput } from "./dto/sign-up";
+import { SignupInput } from "./dto/signup";
 import { AuthService } from "./auth-service";
 import { injectable } from "tsyringe";
+import { LoginInput } from "./dto/login";
 
 @injectable()
 @Resolver(AuthPayload)
@@ -18,17 +19,22 @@ export class AuthResolver {
     return await this.authService.signup(input);
   }
 
-
   @Mutation((returns) => AuthPayload)
   async login(
     @Ctx() ctx: any,
     @Arg("input")
-    input: SignupInput
+    input: LoginInput
   ): Promise<AuthPayload> {
-    return await this.authService.signup(input);
+    return await this.authService.login(input);
   }
   @Query((returns) => AuthPayload, { nullable: true })
   async recipe(@Arg("title") title: string): Promise<AuthPayload | undefined> {
     return { name: "hi there", token: "os" };
   }
+
+  // @Query((returns) => AuthPayload, { nullable: true })
+  // async getAuthPayload(@Arg("token") token: string): Promise<AuthPayload | undefined> {
+
+    
+  // }
 }

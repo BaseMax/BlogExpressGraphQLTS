@@ -1,12 +1,13 @@
 import { UserService } from "../user/user-service";
 import { UserModel } from "../user/user.model";
-import { SignupInput } from "./dto/sign-up";
+import { SignupInput } from "./dto/signup";
 import jwt from "jsonwebtoken";
 import { AuthPayload } from "./entity/auth-payload";
 import { JwtPayload } from "./interface/jwt-payload";
 import { ICreateUser } from "../interfaces/create-user-interface";
 import { injectable } from "tsyringe";
 import { BadRequestException } from "../errors/bad-request-exception";
+import { LoginInput } from "./dto/login";
 
 @injectable()
 export class AuthService {
@@ -28,6 +29,22 @@ export class AuthService {
     });
     return { name: signupInput.name, token: token };
   }
+
+  async login(loginInput: LoginInput): Promise<AuthPayload> {
+    const user = await this.userService.findByEmail(loginInput.email);
+
+    if (!user) {
+      throw new Error("credentials aren't correct");
+    }
+
+    const token = await this.getToken({
+      sub: user._id,
+      name: user.name,
+    });
+
+    return { name: user.name, token: token };
+  }
+
 
   async getToken(jwtPayload: JwtPayload): Promise<string> {
     const secretKey = process.env.SECRET_KEY as string;
