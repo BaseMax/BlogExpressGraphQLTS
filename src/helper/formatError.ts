@@ -2,7 +2,6 @@ import { GraphQLError, GraphQLFormattedError } from "graphql";
 import { logger } from "../logger/logger";
 import { unwrapResolverError } from "@apollo/server/errors";
 import { ArgumentValidationError } from "type-graphql";
-import { ValidationFailedException } from "../errors/validation-exception";
 import type { ValidationError as ClassValidatorValidationError } from "class-validator";
 
 type IValidationError = Pick<

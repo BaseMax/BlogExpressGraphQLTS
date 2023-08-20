@@ -18,6 +18,15 @@ export class AuthResolver {
     return await this.authService.signup(input);
   }
 
+
+  @Mutation((returns) => AuthPayload)
+  async login(
+    @Ctx() ctx: any,
+    @Arg("input")
+    input: SignupInput
+  ): Promise<AuthPayload> {
+    return await this.authService.signup(input);
+  }
   @Query((returns) => AuthPayload, { nullable: true })
   async recipe(@Arg("title") title: string): Promise<AuthPayload | undefined> {
     return { name: "hi there", token: "os" };

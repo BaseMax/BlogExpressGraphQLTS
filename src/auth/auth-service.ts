@@ -29,10 +29,6 @@ export class AuthService {
     return { name: signupInput.name, token: token };
   }
 
-  //   if(isExistUser){
-  //     throw ERR
-  //   }
-
   async getToken(jwtPayload: JwtPayload): Promise<string> {
     const secretKey = process.env.SECRET_KEY as string;
     return jwt.sign(jwt, secretKey, {

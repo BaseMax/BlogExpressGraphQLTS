@@ -9,6 +9,7 @@ type AuthPayload {
 }
 
 type Mutation {
+  login(input: SignupInput!): AuthPayload!
   signup(input: SignupInput!): AuthPayload!
 }
 
