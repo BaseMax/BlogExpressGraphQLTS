@@ -7,20 +7,15 @@ import { injectable } from "tsyringe";
 @injectable()
 @Resolver(AuthPayload)
 export class AuthResolver {
-  constructor(private  authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   @Mutation((returns) => AuthPayload)
   async signup(
     @Ctx() ctx: any,
-    @Arg("input", () => SignupInput)
+    @Arg("input")
     input: SignupInput
   ): Promise<AuthPayload> {
-    console.log(this.authService);
-
-    const auth = await this.authService.signup(input);
-    console.log("here");
-
-    return auth;
+    return await this.authService.signup(input);
   }
 
   @Query((returns) => AuthPayload, { nullable: true })

@@ -6,21 +6,24 @@ import { AuthPayload } from "./entity/auth-payload";
 import { JwtPayload } from "./interface/jwt-payload";
 import { ICreateUser } from "../interfaces/create-user-interface";
 import { injectable } from "tsyringe";
+import { BadRequestException } from "../errors/bad-request-exception";
 
 @injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) {}
-  async signup(signupInput:ICreateUser): Promise<AuthPayload> {
-    console.log("here");
-    
+  async signup(signupInput: ICreateUser): Promise<AuthPayload> {
     const isExistUser = (await this.userService.findByEmail(signupInput.email))
       ? true
       : false;
 
-    console.log(isExistUser);
+    if (isExistUser) {
+      throw new BadRequestException("user already exist");
+    }
+
+    const user = await this.userService.createUser(signupInput);
 
     const token = await this.getToken({
-      sub: "121212",
+      sub: user._id,
       name: signupInput.name,
     });
     return { name: signupInput.name, token: token };
