@@ -20,6 +20,7 @@ type Mutation {
 
 type Query {
   getAuthPayload(token: String!): AuthPayload
+  randomValue: Float!
 }
 
 input SignupInput {
