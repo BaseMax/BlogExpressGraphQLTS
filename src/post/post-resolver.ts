@@ -76,6 +76,21 @@ export class PostResolver {
     return this.postService.getPostById(mongo.id);
   }
 
+  @Authorized()
+  @Mutation(() => Post, { nullable: true })
+  async likePost(@Arg("input") mongo: MongoId, @Ctx() ctx: ContextType) {
+    const userId = ctx.jwtPayload?.sub as string;
+
+    const isLikedByUser = await this.postService.isLikedByUser(
+      userId,
+      mongo.id
+    );
+
+    return isLikedByUser
+      ? this.postService.retrieveLike(userId, mongo.id)
+      : this.postService.likePost(userId, mongo.id);
+  }
+
   @Query()
   @Authorized()
   randomValue(@Ctx() ctx: ContextType): number {

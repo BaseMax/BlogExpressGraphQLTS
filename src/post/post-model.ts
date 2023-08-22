@@ -13,6 +13,14 @@ const postSchema = new mongoose.Schema({
   isPublished: { type: Boolean, default: false },
 
   createdAt: { type: Date, default: Date.now },
+
+  countOfLikes: { type: Number, default: 0 },
+  likedUsers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ] ,
 });
 
 export const PostModel = mongoose.model("Post", postSchema);

@@ -29,6 +29,7 @@ input MongoId {
 
 type Mutation {
   createPost(input: CreatePostInput!): Post!
+  likePost(input: MongoId!): Post
   login(input: LoginInput!): AuthPayload!
   removePost(id: String!): Post!
   signup(input: SignupInput!): AuthPayload!
@@ -38,9 +39,11 @@ type Mutation {
 type Post {
   authorId: String!
   content: String!
+  countOfLikes: Int!
   createdAt: DateTimeISO!
   id: String!
   isPublished: Boolean!
+  likedUsers: [String!]!
   title: String!
 }
 
