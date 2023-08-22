@@ -8,6 +8,7 @@ import { ICreateUser } from "../interfaces/create-user-interface";
 import { injectable } from "tsyringe";
 import { BadRequestException } from "../errors/bad-request-exception";
 import { LoginInput } from "./dto/login";
+import { JwtService } from "./jwt-service";
 
 @injectable()
 export class AuthService {
@@ -52,7 +53,7 @@ export class AuthService {
       const jwtPayload = jwt.verify(token, secretKey) as JwtPayload;
 
       console.log(jwtPayload);
-      
+
       const newToken = this.getToken({
         sub: jwtPayload.sub,
         name: jwtPayload.name,

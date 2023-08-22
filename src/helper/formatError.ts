@@ -9,13 +9,12 @@ type IValidationError = Pick<
   "property" | "value" | "constraints" | "children"
 >;
 
-export function formatError(error: GraphQLError): GraphQLFormattedError {
+export function formatError(error: any): GraphQLFormattedError {
   let originalError = unwrapResolverError(error);
   let validationMessages;
   if (error.message === "Argument Validation Error") {
-    const validationErrors: IValidationError[] = (
-      error.extensions.exception as any
-    ).validationErrors;
+    const validationErrors: IValidationError[] = (error.extensions as any)
+      .validationErrors;
 
     validationMessages = validationErrors.map(formatValidationErrors);
   }

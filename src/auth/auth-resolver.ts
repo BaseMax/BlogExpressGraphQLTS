@@ -33,7 +33,7 @@ export class AuthResolver {
     @Arg("token") token: string
   ): Promise<AuthPayload | undefined> {
     console.log(token);
-    
+
     return this.authService.getAuthPayloadFromToken(token);
   }
 }

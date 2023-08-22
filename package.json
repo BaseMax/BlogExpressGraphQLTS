@@ -4,8 +4,10 @@
   "description": "BlogExpressGraphQLTS is a TypeScript-based project for creating a feature-rich blog using Express.js and GraphQL, without relying on NestJS. This project aims to provide a flexible and powerful backend solution for managing a blog application through GraphQL queries and mutations.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-    , "dev" : "clear & nodemon "
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "start": "node ./dist/server.js",
+    "dev": " nodemon"
   },
   "repository": {
     "type": "git",
@@ -24,8 +26,12 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "cuid": "^3.0.0",
+    "dotenv": "^16.3.1",
     "graphql": "^16.7.1",
     "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.3",
+    "pino": "^8.15.0",
+    "pino-pretty": "^10.2.0",
     "reflect-metadata": "^0.1.13",
     "sharp": "^0.32.1",
     "tsyringe": "^4.8.0",
@@ -34,6 +40,7 @@
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/jest": "29.5.0",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "18.15.11",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
@@ -44,7 +51,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "29.5.0",
-    "nodemon": "^2.0.19",
+    "nodemon": "^2.0.22",
     "prettier": "^2.3.2",
     "prisma": "^4.14.0",
     "source-map-support": "^0.5.20",

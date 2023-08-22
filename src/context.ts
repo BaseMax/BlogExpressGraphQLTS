@@ -1,23 +1,8 @@
-import { GraphQLError } from "graphql";
-import { getUserFromToken } from "./auth/get-user-from-token";
-
-// export const context = async ({ headers }) => {
-//   const token = headers["authorization"];
-//   if (token) {
-//     try {
-//       return { user: getUserFromToken(token) };
-//     } catch {
-//       throw new GraphQLError("Authentication error", {
-//         extensions: { code: "UNAUTHENTICATED" },
-//       });
-//     }
-//   } else {
-//     return {};
-//   }
-// };
-
-import { AuthPayload } from "./auth/entity/auth-payload";
-
-export interface Context {
-  user?: AuthPayload;
-}
+import { Request, Response, NextFunction } from "express";
+import { JwtPayload } from "./auth/interface/jwt-payload";
+export type ContextType = {
+  req: Request;
+  res: Response;
+  nextFunction: NextFunction;
+  jwtPayload: JwtPayload;
+};

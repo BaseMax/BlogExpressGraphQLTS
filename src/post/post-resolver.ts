@@ -1,11 +1,13 @@
 import { Authorized, Ctx, Query, Resolver, UseMiddleware } from "type-graphql";
-import { AuthMiddleware, ResolveTime } from "../helper/auth-middleware";
+import { ContextType } from "../context";
 
 @Resolver()
 export class PostResolver {
   @Query()
   @Authorized()
-  randomValue(): number {
+  randomValue(@Ctx() ctx: ContextType): number {
+    console.log(ctx.jwtPayload);
+
     return Math.random();
   }
 }
