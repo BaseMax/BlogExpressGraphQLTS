@@ -6,5 +6,6 @@ export interface PostDocument extends Document {
   readonly countOfLikes: number;
   readonly authorId: Types.ObjectId;
   readonly likedUsers: Types.ObjectId[];
+  readonly tags: Types.ObjectId[];
   readonly createdAt: Date;
 }

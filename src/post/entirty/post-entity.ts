@@ -1,9 +1,9 @@
-import { Field, ObjectType,Int } from "type-graphql";
+import { Field, ObjectType, Int } from "type-graphql";
 
 @ObjectType()
 export class Post {
   @Field()
-  id: string;   
+  id: string;
   @Field()
   content: string;
 
@@ -16,12 +16,14 @@ export class Post {
   @Field()
   isPublished: boolean;
 
-  @Field(()=>Int)
-   countOfLikes : number
+  @Field(() => Int)
+  countOfLikes: number;
 
-   @Field(()=>[String])
-   likedUsers :string[]
+  @Field(() => [String])
+  likedUsers: string[];
 
+  @Field(() => [String])
+  tags: string[];
 
   @Field(() => Date)
   createdAt: Date;
