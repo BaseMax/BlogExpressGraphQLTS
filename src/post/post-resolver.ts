@@ -15,11 +15,16 @@ import { injectable } from "tsyringe";
 import { UpdatePostInput } from "./dto/update-post.input";
 import { BadRequestException } from "../errors/bad-request-exception";
 import { MongoId } from "./dto/mongoId.input";
+import { AddTagTo } from "./dto/add-tag-to-post.inputs";
+import { TagService } from "../tag/tag-service";
 
 @Resolver()
 @injectable()
 export class PostResolver {
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly tagService: TagService
+  ) {}
 
   @Mutation(() => Post)
   @Authorized()
@@ -89,6 +94,15 @@ export class PostResolver {
     return isLikedByUser
       ? this.postService.retrieveLike(userId, mongo.id)
       : this.postService.likePost(userId, mongo.id);
+  }
+
+  @Authorized()
+  @Mutation(() => Post, { nullable: true })
+  async addTagToPost(@Arg("input") addTagTo: AddTagTo) {
+    const tag = await this.tagService.findByIdOrThrow(addTagTo.tagId);
+    const post = await this.postService.findByIdOrThrow(addTagTo.postId);
+
+    return this.postService.addTagToPost(addTagTo.tagId, addTagTo.postId);
   }
 
   @Query()

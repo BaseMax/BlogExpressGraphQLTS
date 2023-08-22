@@ -3,6 +3,11 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input AddTagTo {
+  postId: String!
+  tagId: String!
+}
+
 type AuthPayload {
   name: String!
   token: String!
@@ -32,6 +37,7 @@ input MongoId {
 }
 
 type Mutation {
+  addTagToPost(input: AddTagTo!): Post
   createPost(input: CreatePostInput!): Post!
   createTag(input: CreateTagInput!): Tag!
   deleteTag(input: MongoId!): Tag
@@ -40,6 +46,12 @@ type Mutation {
   removePost(id: String!): Post!
   signup(input: SignupInput!): AuthPayload!
   updatePost(input: UpdatePostInput!): Post!
+}
+
+type PopularTag {
+  countOfUsed: Float!
+  id: String!
+  tagName: String!
 }
 
 type Post {
@@ -57,6 +69,7 @@ type Post {
 type Query {
   getAllPosts: [Post!]!
   getAuthPayload(token: String!): AuthPayload
+  getPopularTags(input: MongoId!): PopularTag
   getPostById(input: MongoId!): Post
   randomValue: Float!
 }

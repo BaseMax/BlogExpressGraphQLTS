@@ -5,6 +5,7 @@ import { PostDocument } from "./entirty/post-document";
 import { UpdatePostInput } from "./dto/update-post.input";
 import { Post } from "./entirty/post-entity";
 import mongoose from "mongoose";
+import { BadRequestException } from "../errors/bad-request-exception";
 @injectable()
 export class PostService {
   async createPost(
@@ -21,6 +22,29 @@ export class PostService {
   async getPostById(id: string): Promise<PostDocument | null> {
     return PostModel.findById(id);
   }
+  async findByIdOrThrow(id: string): Promise<PostDocument | null> {
+    const post = await this.getPostById(id);
+    if (!post) {
+      throw new BadRequestException("post with this credentials doesn't exist");
+    }
+    return post;
+  }
+
+  async addTagToPost(
+    tagId: string,
+    postId: string
+  ): Promise<PostDocument | null> {
+    return await PostModel.findByIdAndUpdate(
+      postId,
+      {
+        $push: { tags: tagId },
+      },
+      {
+        returnOriginal: false,
+      }
+    );
+  }
+
   async updatePost(
     updatePostInput: UpdatePostInput
   ): Promise<PostDocument | null> {

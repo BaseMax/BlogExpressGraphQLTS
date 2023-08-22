@@ -8,3 +8,15 @@ export class Tag {
   @Field()
   tagName: string;
 }
+
+@ObjectType()
+export class PopularTag {
+  @Field()
+  id: String;
+
+  @Field()
+  tagName: string;
+
+  @Field()
+  countOfUsed: number
+}
