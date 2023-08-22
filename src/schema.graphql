@@ -41,6 +41,7 @@ type Post {
 }
 
 type Query {
+  getAllPosts: [Post!]!
   getAuthPayload(token: String!): AuthPayload
   randomValue: Float!
 }

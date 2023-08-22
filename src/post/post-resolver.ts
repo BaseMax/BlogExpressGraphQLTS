@@ -63,6 +63,12 @@ export class PostResolver {
     return await this.postService.deletePost(postId);
   }
 
+  @Query(() => [Post])
+  @Authorized()
+  async getAllPosts() {
+    return this.postService.getAllPosts();
+  }
+
   @Query()
   @Authorized()
   randomValue(@Ctx() ctx: ContextType): number {

@@ -13,6 +13,9 @@ export class PostService {
     return PostModel.create({ ...postInput, authorId: userId });
   }
 
+  async getAllPosts(): Promise<PostDocument[]> {
+    return PostModel.find();
+  }
   async updatePost(
     updatePostInput: UpdatePostInput
   ): Promise<PostDocument | null> {
