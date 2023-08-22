@@ -25,6 +25,9 @@ export class PostService {
     );
   }
 
+  async deletePost(id: string): Promise<PostDocument | null> {
+    return PostModel.findByIdAndDelete(id);
+  }
   async isAuthor(userId: string, postId: string): Promise<boolean> {
     const post = await PostModel.findOne({
       _id: postId,

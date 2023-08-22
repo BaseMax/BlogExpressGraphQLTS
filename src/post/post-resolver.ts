@@ -47,9 +47,20 @@ export class PostResolver {
     if (!isAllowed) {
       throw new BadRequestException("you aren't allowed to modify.");
     }
-    const post = await this.postService.updatePost(updatePostInput);
-    console.log(post);
-    return post;
+    return await this.postService.updatePost(updatePostInput);
+  }
+
+  @Mutation(() => Post)
+  @Authorized()
+  async removePost(@Arg("id") postId: string, @Ctx() ctx: ContextType) {
+    const userId = ctx.jwtPayload?.sub as string;
+
+    const isAllowed = await this.postService.isAuthor(userId, postId);
+
+    if (!isAllowed) {
+      throw new BadRequestException("you aren't allowed to modify.");
+    }
+    return await this.postService.deletePost(postId);
   }
 
   @Query()
