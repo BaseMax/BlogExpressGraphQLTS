@@ -10,9 +10,9 @@ import { formatError } from "./helper/formatError";
 import { container } from "./container";
 import { PostResolver } from "./post/post-resolver";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { type IExpressContext } from "./helper/interfaces/express-context-interface";
-
+import { ContextType } from "./context";
 import { CustomAuthChecker } from "./auth/auth-checker";
+import { Request, Response } from "express";
 dotenv.config();
 
 const port = process.env.Port || 3000;
@@ -29,13 +29,16 @@ export async function createServer() {
     validate: true,
   });
 
-  const server = new ApolloServer<IExpressContext>({
+  const server = new ApolloServer<ContextType>({
     schema,
     formatError: formatError,
   });
 
   const { url } = await startStandaloneServer(server, {
-    context: async ({ req, res }) => ({ req, res }),
+    context: async ({ req, res }) => ({
+      req: req as Request,
+      res: res as Response,
+    }),
   });
 
   logger.info(` 🚀 GraphQL server ready at: ${url}`);
