@@ -23,6 +23,10 @@ input LoginInput {
   password: String!
 }
 
+input MongoId {
+  id: String!
+}
+
 type Mutation {
   createPost(input: CreatePostInput!): Post!
   login(input: LoginInput!): AuthPayload!
@@ -43,6 +47,7 @@ type Post {
 type Query {
   getAllPosts: [Post!]!
   getAuthPayload(token: String!): AuthPayload
+  getPostById(input: MongoId!): Post
   randomValue: Float!
 }
 

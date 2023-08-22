@@ -14,6 +14,7 @@ import { CreatePostInput } from "./dto/create-post.input";
 import { injectable } from "tsyringe";
 import { UpdatePostInput } from "./dto/update-post.input";
 import { BadRequestException } from "../errors/bad-request-exception";
+import { MongoId } from "./dto/mongoId.input";
 
 @Resolver()
 @injectable()
@@ -67,6 +68,12 @@ export class PostResolver {
   @Authorized()
   async getAllPosts() {
     return this.postService.getAllPosts();
+  }
+
+  @Query(() => Post, { nullable: true })
+  @Authorized()
+  async getPostById(@Arg("input") mongo: MongoId) {
+    return this.postService.getPostById(mongo.id);
   }
 
   @Query()

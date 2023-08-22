@@ -16,6 +16,10 @@ export class PostService {
   async getAllPosts(): Promise<PostDocument[]> {
     return PostModel.find();
   }
+
+  async getPostById(id: string): Promise<PostDocument | null> {
+    return PostModel.findById(id);
+  }
   async updatePost(
     updatePostInput: UpdatePostInput
   ): Promise<PostDocument | null> {
