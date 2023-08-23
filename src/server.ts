@@ -14,6 +14,7 @@ import { ContextType } from "./context";
 import { CustomAuthChecker } from "./auth/auth-checker";
 import { Request, Response } from "express";
 import { TagResolver } from "./tag/tag-resolver";
+import { CommentResolver } from "./comment/comment-resolver";
 dotenv.config();
 
 const port = process.env.Port || 3000;
@@ -21,7 +22,7 @@ const dbUri = process.env.DATABASE_URI as string;
 
 export async function createServer() {
   const schema = await buildSchema({
-    resolvers: [AuthResolver, PostResolver, TagResolver],
+    resolvers: [AuthResolver, PostResolver, TagResolver, CommentResolver],
     emitSchemaFile: path.resolve(__dirname, "schema.graphql"),
     container: { get: (cls) => container.resolve(cls) },
 

@@ -13,6 +13,23 @@ type AuthPayload {
   token: String!
 }
 
+type Comment {
+  content: String!
+  countOfLikes: Int!
+  createdAt: DateTimeISO!
+  id: String!
+  likedUser: [String!]
+  postId: String!
+  repliedTo: String
+  senderId: String!
+}
+
+input CreateCommentInput {
+  content: String!
+  postId: String!
+  repliedTo: String
+}
+
 input CreatePostInput {
   content: String!
   title: String!
@@ -38,6 +55,7 @@ input MongoId {
 
 type Mutation {
   addTagToPost(input: AddTagTo!): Post
+  createComment(input: CreateCommentInput!): Comment!
   createPost(input: CreatePostInput!): Post!
   createTag(input: CreateTagInput!): Tag!
   deleteTag(input: MongoId!): Tag
@@ -71,6 +89,7 @@ type Query {
   getAllPosts: [Post!]!
   getAuthPayload(token: String!): AuthPayload
   getAuthorPosts(input: MongoId!): [Post!]
+  getHello: String!
   getPopularTags: PopularTag
   getPostById(input: MongoId!): Post
   getPostByTag(input: MongoId!): [Post!]
