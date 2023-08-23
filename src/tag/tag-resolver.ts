@@ -30,13 +30,9 @@ export class TagResolver {
     return await this.tagService.deleteTag(mongo.id);
   }
 
-
   @Authorized()
   @Query(() => PopularTag, { nullable: true })
-  async getPopularTags(@Arg("input") mongo: MongoId) {
-    const tagDeletedFromPosts = await this.tagService.deleteTagFromPosts(
-      mongo.id
-    );
-    return await this.tagService.deleteTag(mongo.id);
+  async getPopularTags() {
+    return await this.tagService.getPopularTag();
   }
 }

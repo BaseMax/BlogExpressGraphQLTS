@@ -5,6 +5,7 @@ import { TagModel } from "./tag-model";
 import { PostModel } from "../post/post-model";
 import { PopularTag } from "./entity/tag-entity";
 import { BadRequestException } from "../errors/bad-request-exception";
+
 @injectable()
 export class TagService {
   async createTag(createTagInput: CreateTagInput): Promise<TagDocument> {
@@ -40,17 +41,33 @@ export class TagService {
   }
 
   async getPopularTag(): Promise<PopularTag> {
-    const popularTags = await TagModel.aggregate([
+    const popularTags = await PostModel.aggregate([
+      { $unwind: "$tags" },
       {
-        $unwind: "tags",
-      },
-      { $group: { _id: "$tags", countOfUsed: { $sum: 1 } } },
+        $group: {
+          _id: "$tags",
 
-      { $sort: { countOfUsed: -1 } },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $lookup: {
+          from: "tags",
+          localField: "_id",
+          foreignField: "_id",
+          as: "tagDocs",
+        },
+      },
+
+      { $sort: { count: -1 } },
     ]);
 
-    console.log(popularTags);
+    const mostPopularTag = popularTags[0];
 
-    return { tagName: "test", id: "asjd", countOfUsed: 3 };
+    return {
+      tagName: mostPopularTag.tagDocs[0].tagName,
+      id: mostPopularTag._id,
+      countOfUsed: mostPopularTag.count,
+    };
   }
 }

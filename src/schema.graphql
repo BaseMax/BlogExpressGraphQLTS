@@ -69,9 +69,8 @@ type Post {
 type Query {
   getAllPosts: [Post!]!
   getAuthPayload(token: String!): AuthPayload
-  getPopularTags(input: MongoId!): PopularTag
+  getPopularTags: PopularTag
   getPostById(input: MongoId!): Post
-  randomValue: Float!
 }
 
 input SignupInput {
