@@ -105,11 +105,5 @@ export class PostResolver {
     return this.postService.addTagToPost(addTagTo.tagId, addTagTo.postId);
   }
 
-  @Query()
-  @Authorized()
-  randomValue(@Ctx() ctx: ContextType): number {
-    console.log(ctx.jwtPayload);
 
-    return Math.random();
-  }
 }
