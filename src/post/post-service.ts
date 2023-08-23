@@ -16,7 +16,9 @@ export class PostService {
   }
 
   async getAllPosts(): Promise<PostDocument[]> {
-    return PostModel.find();
+    return PostModel.find({
+      isPublished: true,
+    });
   }
 
   async getPostById(id: string): Promise<PostDocument | null> {
@@ -26,12 +28,14 @@ export class PostService {
   async getAuthorPosts(authorId: string): Promise<PostDocument[]> {
     return PostModel.find({
       authorId: authorId,
+      isPublished: true,
     });
   }
 
   async getPostByTag(tagId: string): Promise<PostDocument[]> {
     return PostModel.find({
       tags: tagId,
+      isPublished: true,
     });
   }
 
@@ -39,8 +43,9 @@ export class PostService {
     return await PostModel.find({
       $or: [
         { title: { $regex: keyword, $options: "i" } },
-        { content: { $regex: keyword, $options  : "i" } },
+        { content: { $regex: keyword, $options: "i" } },
       ],
+      isPublished: true,
     });
   }
 
