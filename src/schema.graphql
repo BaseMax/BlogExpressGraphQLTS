@@ -96,6 +96,7 @@ type Query {
   getPostById(input: MongoId!): Post
   getPostByTag(input: MongoId!): [Post!]
   search(input: SearchInput!): [Post!]
+  searchComment(input: SearchInput!): [Comment!]
 }
 
 input SearchInput {

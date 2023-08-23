@@ -123,6 +123,11 @@ export class CommentService {
     return comment ? true : false;
   }
 
+  async search(keyword: string): Promise<CommentDocument[]> {
+    return await CommentModel.find({
+      content: { $regex: keyword, $options: "i" },
+    });
+  }
   async deleteComment(id: string): Promise<CommentDocument | null> {
     return await CommentModel.findByIdAndDelete(id);
   }

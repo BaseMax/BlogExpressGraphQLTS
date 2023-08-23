@@ -8,6 +8,7 @@ import { PostService } from "../post/post-service";
 import { UpdateCommentInput } from "./dto/update-comment.input";
 import { BadRequestException } from "../errors/bad-request-exception";
 import { MongoId } from "../post/dto/mongoId.input";
+import { SearchInput } from "../post/dto/search.input";
 
 @Resolver()
 @injectable()
@@ -52,7 +53,7 @@ export class CommentResolver {
   @Mutation(() => Comment, { nullable: true })
   async likeComment(@Arg("input") mongo: MongoId, @Ctx() ctx: ContextType) {
     const userId = ctx.jwtPayload?.sub as string;
-    const comment =await this.commentService.findByIdOrThrow(mongo.id);
+    const comment = await this.commentService.findByIdOrThrow(mongo.id);
     const likedByUser = await this.commentService.isLikedByUser(
       userId,
       mongo.id
@@ -61,6 +62,11 @@ export class CommentResolver {
     return likedByUser
       ? this.commentService.retrieveLikeComment(userId, mongo.id)
       : this.commentService.LikeComment(userId, mongo.id);
+  }
+
+  @Query(() => [Comment], { nullable: true })
+  async searchComment(@Arg("input") searchInput: SearchInput) {
+    return await this.commentService.search(searchInput.keyword);
   }
 
   @Authorized()
