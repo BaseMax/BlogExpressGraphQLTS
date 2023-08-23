@@ -21,7 +21,13 @@ export class CommentService {
   }
 
   async findByIdOrThrow(id: string): Promise<CommentDocument | null> {
-    return await CommentModel.findById(id);
+    const comment = await CommentModel.findById(id);
+    if (!comment)
+      throw new BadRequestException(
+        "comment with this credentials doesn't exist."
+      );
+
+    return comment;
   }
 
   async verifyIds(createCommentInput: CreateCommentInput) {
@@ -65,6 +71,56 @@ export class CommentService {
         returnOriginal: false,
       }
     );
+  }
+
+  async LikeComment(
+    userId: string,
+    commentId: string
+  ): Promise<CommentDocument | null> {
+    return await CommentModel.findByIdAndUpdate(
+      commentId,
+      {
+        $push: {
+          likedUser: userId,
+        },
+        $inc: {
+          countOfLikes: 1,
+        },
+      },
+      {
+        returnOriginal: false,
+      }
+    );
+  }
+
+  async retrieveLikeComment(
+    userId: string,
+    commentId: string
+  ): Promise<CommentDocument | null> {
+    return await CommentModel.findByIdAndUpdate(
+      commentId,
+      {
+        $pull: {
+          likedUser: userId,
+        },
+        $inc: {
+          countOfLikes: -1,
+        },
+      },
+
+      {
+        returnOriginal: false,
+      }
+    );
+  }
+
+  async isLikedByUser(userId: string, commentId: string): Promise<boolean> {
+    const comment = await CommentModel.findOne({
+      _id: commentId,
+      likedUser: userId,
+    });
+
+    return comment ? true : false;
   }
 
   async deleteComment(id: string): Promise<CommentDocument | null> {

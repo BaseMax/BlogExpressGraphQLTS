@@ -60,6 +60,7 @@ type Mutation {
   createTag(input: CreateTagInput!): Tag!
   deleteComment(input: MongoId!): Comment
   deleteTag(input: MongoId!): Tag
+  likeComment(input: MongoId!): Comment
   likePost(input: MongoId!): Post
   login(input: LoginInput!): AuthPayload!
   publishPost(input: MongoId!): Post

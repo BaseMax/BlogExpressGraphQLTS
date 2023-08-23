@@ -50,6 +50,21 @@ export class CommentResolver {
 
   @Authorized()
   @Mutation(() => Comment, { nullable: true })
+  async likeComment(@Arg("input") mongo: MongoId, @Ctx() ctx: ContextType) {
+    const userId = ctx.jwtPayload?.sub as string;
+    const comment =await this.commentService.findByIdOrThrow(mongo.id);
+    const likedByUser = await this.commentService.isLikedByUser(
+      userId,
+      mongo.id
+    );
+
+    return likedByUser
+      ? this.commentService.retrieveLikeComment(userId, mongo.id)
+      : this.commentService.LikeComment(userId, mongo.id);
+  }
+
+  @Authorized()
+  @Mutation(() => Comment, { nullable: true })
   async deleteComment(@Arg("input") mongo: MongoId, @Ctx() ctx: ContextType) {
     const userId = ctx.jwtPayload?.sub as string;
     const isAllowed = await this.commentService.isSender(userId, mongo.id);
