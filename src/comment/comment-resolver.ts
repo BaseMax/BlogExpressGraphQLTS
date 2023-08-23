@@ -7,6 +7,7 @@ import { Comment } from "./entity/comment-entity";
 import { PostService } from "../post/post-service";
 import { UpdateCommentInput } from "./dto/update-comment.input";
 import { BadRequestException } from "../errors/bad-request-exception";
+import { MongoId } from "../post/dto/mongoId.input";
 
 @Resolver()
 @injectable()
@@ -28,7 +29,7 @@ export class CommentResolver {
   }
 
   @Authorized()
-  @Mutation(() => Comment,{nullable:true})
+  @Mutation(() => Comment, { nullable: true })
   async updateComment(
     @Arg("input") updateCommentInput: UpdateCommentInput,
     @Ctx() ctx: ContextType
@@ -47,8 +48,17 @@ export class CommentResolver {
     return this.commentService.updateComment(updateCommentInput);
   }
 
-  @Query(() => String)
-  getHello() {
-    return "hi";
+  @Authorized()
+  @Mutation(() => Comment, { nullable: true })
+  async deleteComment(@Arg("input") mongo: MongoId, @Ctx() ctx: ContextType) {
+    const userId = ctx.jwtPayload?.sub as string;
+    const isAllowed = await this.commentService.isSender(userId, mongo.id);
+    if (!isAllowed) {
+      throw new BadRequestException(
+        "You aren't allowed to modify this comment"
+      );
+    }
+
+    return this.commentService.deleteComment(mongo.id);
   }
 }

@@ -58,6 +58,7 @@ type Mutation {
   createComment(input: CreateCommentInput!): Comment!
   createPost(input: CreatePostInput!): Post!
   createTag(input: CreateTagInput!): Tag!
+  deleteComment(input: MongoId!): Comment
   deleteTag(input: MongoId!): Tag
   likePost(input: MongoId!): Post
   login(input: LoginInput!): AuthPayload!
@@ -90,7 +91,6 @@ type Query {
   getAllPosts: [Post!]!
   getAuthPayload(token: String!): AuthPayload
   getAuthorPosts(input: MongoId!): [Post!]
-  getHello: String!
   getPopularTags: PopularTag
   getPostById(input: MongoId!): Post
   getPostByTag(input: MongoId!): [Post!]
