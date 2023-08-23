@@ -64,6 +64,7 @@ type Mutation {
   publishPost(input: MongoId!): Post
   removePost(id: String!): Post!
   signup(input: SignupInput!): AuthPayload!
+  updateComment(input: UpdateCommentInput!): Comment
   updatePost(input: UpdatePostInput!): Post!
 }
 
@@ -109,6 +110,11 @@ input SignupInput {
 type Tag {
   id: String!
   tagName: String!
+}
+
+input UpdateCommentInput {
+  commentId: String!
+  newContent: String!
 }
 
 input UpdatePostInput {

@@ -5,6 +5,7 @@ import { CommentDocument } from "./entity/comment-document";
 import { CommentModel } from "./comment-model";
 import { PostService } from "../post/post-service";
 import { BadRequestException } from "../errors/bad-request-exception";
+import { UpdateCommentInput } from "./dto/update-comment.input";
 
 @injectable()
 export class CommentService {
@@ -39,5 +40,30 @@ export class CommentService {
     mustBeVerifiedIds.push(verifyPostId);
 
     await Promise.all(mustBeVerifiedIds);
+  }
+
+  async isSender(userId: string, postId: string): Promise<boolean> {
+    const comment = await CommentModel.findOne({
+      _id: postId,
+      senderId: userId,
+    });
+
+    return comment ? true : false;
+  }
+
+  async updateComment(
+    updateInput: UpdateCommentInput
+  ): Promise<CommentDocument | null> {
+    return CommentModel.findByIdAndUpdate(
+      updateInput.commentId,
+      {
+        $set: {
+          content: updateInput.newContent,
+        },
+      },
+      {
+        returnOriginal: false,
+      }
+    );
   }
 }

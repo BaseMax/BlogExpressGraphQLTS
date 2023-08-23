@@ -5,6 +5,8 @@ import { CreateCommentInput } from "./dto/create-comment.input";
 import { ContextType } from "../context";
 import { Comment } from "./entity/comment-entity";
 import { PostService } from "../post/post-service";
+import { UpdateCommentInput } from "./dto/update-comment.input";
+import { BadRequestException } from "../errors/bad-request-exception";
 
 @Resolver()
 @injectable()
@@ -25,7 +27,25 @@ export class CommentResolver {
     return this.commentService.createComment(createCommentInput, userId);
   }
 
- 
+  @Authorized()
+  @Mutation(() => Comment,{nullable:true})
+  async updateComment(
+    @Arg("input") updateCommentInput: UpdateCommentInput,
+    @Ctx() ctx: ContextType
+  ) {
+    const userId = ctx.jwtPayload?.sub as string;
+    const isAllowed = await this.commentService.isSender(
+      userId,
+      updateCommentInput.commentId
+    );
+    if (!isAllowed) {
+      throw new BadRequestException(
+        "You aren't allowed to modify this comment"
+      );
+    }
+
+    return this.commentService.updateComment(updateCommentInput);
+  }
 
   @Query(() => String)
   getHello() {
