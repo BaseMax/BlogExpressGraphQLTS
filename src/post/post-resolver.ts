@@ -95,7 +95,7 @@ export class PostResolver {
 
   @Query(() => [Post], { nullable: true })
   async search(@Arg("input") searchInput: SearchInput) {
-    return this.postService.search(searchInput.keyword );
+    return this.postService.search(searchInput.keyword);
   }
 
   @Authorized()
@@ -111,6 +111,12 @@ export class PostResolver {
     return isLikedByUser
       ? this.postService.retrieveLike(userId, mongo.id)
       : this.postService.likePost(userId, mongo.id);
+  }
+
+  @Mutation(() => Post, { nullable: true })
+  async publishPost(@Arg("input") mongo: MongoId) {
+    const post = await this.postService.findByIdOrThrow(mongo.id);
+    return this.postService.publishPost(mongo.id);
   }
 
   @Authorized()

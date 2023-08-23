@@ -43,6 +43,7 @@ type Mutation {
   deleteTag(input: MongoId!): Tag
   likePost(input: MongoId!): Post
   login(input: LoginInput!): AuthPayload!
+  publishPost(input: MongoId!): Post
   removePost(id: String!): Post!
   signup(input: SignupInput!): AuthPayload!
   updatePost(input: UpdatePostInput!): Post!

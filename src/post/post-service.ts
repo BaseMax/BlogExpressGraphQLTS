@@ -83,7 +83,19 @@ export class PostService {
       { returnOriginal: false }
     );
   }
-
+  async publishPost(postId: string): Promise<PostDocument | null> {
+    return await PostModel.findByIdAndUpdate(
+      postId,
+      {
+        $set: {
+          isPublished: true,
+        },
+      },
+      {
+        returnOriginal: false,
+      }
+    );
+  }
   async likePost(userId: string, postId: string): Promise<PostDocument | null> {
     return PostModel.findByIdAndUpdate(
       postId,
