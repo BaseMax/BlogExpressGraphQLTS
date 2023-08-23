@@ -34,6 +34,16 @@ export class PostService {
       tags: tagId,
     });
   }
+
+  async search(keyword: string): Promise<PostDocument[]> {
+    return await PostModel.find({
+      $or: [
+        { title: { $regex: keyword, $options: "i" } },
+        { content: { $regex: keyword, $options  : "i" } },
+      ],
+    });
+  }
+
   async findByIdOrThrow(id: string): Promise<PostDocument | null> {
     const post = await this.getPostById(id);
     if (!post) {

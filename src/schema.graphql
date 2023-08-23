@@ -73,6 +73,11 @@ type Query {
   getPopularTags: PopularTag
   getPostById(input: MongoId!): Post
   getPostByTag(input: MongoId!): [Post!]
+  search(input: SearchInput!): [Post!]
+}
+
+input SearchInput {
+  keyword: String!
 }
 
 input SignupInput {

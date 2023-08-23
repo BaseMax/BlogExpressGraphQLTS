@@ -17,6 +17,7 @@ import { BadRequestException } from "../errors/bad-request-exception";
 import { MongoId } from "./dto/mongoId.input";
 import { AddTagTo } from "./dto/add-tag-to-post.inputs";
 import { TagService } from "../tag/tag-service";
+import { SearchInput } from "./dto/search.input";
 
 @Resolver()
 @injectable()
@@ -90,6 +91,11 @@ export class PostResolver {
   async getPostByTag(@Arg("input") mongo: MongoId) {
     const tag = await this.tagService.findByIdOrThrow(mongo.id);
     return this.postService.getPostByTag(mongo.id);
+  }
+
+  @Query(() => [Post], { nullable: true })
+  async search(@Arg("input") searchInput: SearchInput) {
+    return this.postService.search(searchInput.keyword );
   }
 
   @Authorized()
