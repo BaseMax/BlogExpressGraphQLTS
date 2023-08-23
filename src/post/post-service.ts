@@ -22,6 +22,12 @@ export class PostService {
   async getPostById(id: string): Promise<PostDocument | null> {
     return PostModel.findById(id);
   }
+
+  async getAuthorPosts(authorId: string): Promise<PostDocument[]> {
+    return PostModel.find({
+      authorId: authorId,
+    });
+  }
   async findByIdOrThrow(id: string): Promise<PostDocument | null> {
     const post = await this.getPostById(id);
     if (!post) {

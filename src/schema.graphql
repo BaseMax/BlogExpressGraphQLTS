@@ -69,6 +69,7 @@ type Post {
 type Query {
   getAllPosts: [Post!]!
   getAuthPayload(token: String!): AuthPayload
+  getAuthorPosts(input: MongoId!): [Post!]
   getPopularTags: PopularTag
   getPostById(input: MongoId!): Post
 }

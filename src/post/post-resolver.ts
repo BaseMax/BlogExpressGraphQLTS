@@ -81,6 +81,11 @@ export class PostResolver {
     return this.postService.getPostById(mongo.id);
   }
 
+  @Query(() => [Post], { nullable: true })
+  async getAuthorPosts(@Arg("input") mongo: MongoId) {
+    return this.postService.getAuthorPosts(mongo.id);
+  }
+
   @Authorized()
   @Mutation(() => Post, { nullable: true })
   async likePost(@Arg("input") mongo: MongoId, @Ctx() ctx: ContextType) {
@@ -104,6 +109,4 @@ export class PostResolver {
 
     return this.postService.addTagToPost(addTagTo.tagId, addTagTo.postId);
   }
-
-
 }
