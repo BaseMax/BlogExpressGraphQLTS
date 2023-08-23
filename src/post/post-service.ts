@@ -28,6 +28,12 @@ export class PostService {
       authorId: authorId,
     });
   }
+
+  async getPostByTag(tagId: string): Promise<PostDocument[]> {
+    return PostModel.find({
+      tags: tagId,
+    });
+  }
   async findByIdOrThrow(id: string): Promise<PostDocument | null> {
     const post = await this.getPostById(id);
     if (!post) {

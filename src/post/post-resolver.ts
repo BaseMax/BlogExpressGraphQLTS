@@ -86,6 +86,12 @@ export class PostResolver {
     return this.postService.getAuthorPosts(mongo.id);
   }
 
+  @Query(() => [Post], { nullable: true })
+  async getPostByTag(@Arg("input") mongo: MongoId) {
+    const tag = await this.tagService.findByIdOrThrow(mongo.id);
+    return this.postService.getPostByTag(mongo.id);
+  }
+
   @Authorized()
   @Mutation(() => Post, { nullable: true })
   async likePost(@Arg("input") mongo: MongoId, @Ctx() ctx: ContextType) {

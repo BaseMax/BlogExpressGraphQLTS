@@ -72,6 +72,7 @@ type Query {
   getAuthorPosts(input: MongoId!): [Post!]
   getPopularTags: PopularTag
   getPostById(input: MongoId!): Post
+  getPostByTag(input: MongoId!): [Post!]
 }
 
 input SignupInput {
