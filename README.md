@@ -49,7 +49,7 @@ Rename the `.env.example` file to `.env` in the root directory.
 Open the .env file and configure the environment variables:
 
 ```makefile
-DATABASE_URL=mongodb://localhost/blog-express-graphql # MongoDB connection URI
+DATABASE_URI=mongodb://localhost/blog-express-graphql # MongoDB connection URI
 SECRET_KEY=your-secret-key # Secret key for JWT authentication
 ```
 
