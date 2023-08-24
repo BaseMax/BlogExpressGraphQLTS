@@ -31,6 +31,12 @@ export class TagResolver {
   }
 
   @Authorized()
+  @Query(() => Tag, { nullable: true })
+  async getTagById(@Arg("input") mongo: MongoId) {
+    return await this.tagService.findByIdOrThrow(mongo.id);
+  }
+
+  @Authorized()
   @Query(() => PopularTag, { nullable: true })
   async getPopularTags() {
     return await this.tagService.getPopularTag();
