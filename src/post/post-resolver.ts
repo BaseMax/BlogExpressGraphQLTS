@@ -112,10 +112,12 @@ export class PostResolver {
       ? this.postService.retrieveLike(userId, mongo.id)
       : this.postService.likePost(userId, mongo.id);
   }
-
+  @Authorized()
   @Mutation(() => Post, { nullable: true })
-  async publishPost(@Arg("input") mongo: MongoId) {
-    const post = await this.postService.findByIdOrThrow(mongo.id);
+  async publishPost(@Arg("input") mongo: MongoId, @Ctx() ctx: ContextType) {
+    const userId = ctx.jwtPayload?.sub as string;
+
+    const isAllowed = await this.postService.isAuthor(userId, mongo.id);
     return this.postService.publishPost(mongo.id);
   }
 
@@ -126,5 +128,11 @@ export class PostResolver {
     const post = await this.postService.findByIdOrThrow(addTagTo.postId);
 
     return this.postService.addTagToPost(addTagTo.tagId, addTagTo.postId);
+  }
+
+  @Authorized()
+  @Query(() => [Post], { nullable: true })
+  async getTagPostsByPopularity(@Arg("input") mongo: MongoId) {
+    return await this.postService.getTagPostsByPopularity(mongo.id);
   }
 }

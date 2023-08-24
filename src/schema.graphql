@@ -104,6 +104,7 @@ type Query {
   getPopularTags: PopularTag
   getPostById(input: MongoId!): Post
   getPostByTag(input: MongoId!): [Post!]
+  getTagPostsByPopularity(input: MongoId!): [Post!]
   search(input: SearchInput!): [Post!]
   searchComment(input: SearchInput!): [Comment!]
 }

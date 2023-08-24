@@ -144,4 +144,10 @@ export class PostService {
 
     return post ? true : false;
   }
+
+  async getTagPostsByPopularity(id: string): Promise<PostDocument[]> {
+    return await PostModel.find({ tags: id }).sort({
+      countOfLikes: -1,
+    });
+  }
 }
