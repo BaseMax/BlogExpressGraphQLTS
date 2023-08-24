@@ -3,6 +3,8 @@ import { ICreateUser } from "../interfaces/create-user-interface";
 import { UserDocument } from "./interface/user-document";
 import { UserModel } from "./user.model";
 import * as argon2 from "argon2";
+import { PostModel } from "../post/post-model";
+import { PopularAuthor } from "./entity/popular-author-entity";
 
 @injectable()
 export class UserService {
@@ -18,4 +20,68 @@ export class UserService {
       email,
     });
   }
+  async getPopularAuthors(limit: number): Promise<PopularAuthor[]> {
+    const result = await PostModel.aggregate([
+      {
+        $group: {
+          _id: "$authorId",
+          totalLikes: { $sum: "$countOfLikes" },
+          countOfPosts: { $sum: 1 },
+        },
+      },
+      {
+        $addFields: { sortOrder: { $add: ["$totalLikes", "$countOfPosts"] } },
+      },
+      {
+        $sort: { sortOrder: -1 },
+      },
+      {
+        $limit: limit,
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          pipeline: [
+            {
+              $project: {
+                name: 1,
+                email: 1,
+              },
+            },
+          ],
+          as: "user",
+        },
+      },
+
+      {
+        $unwind: { path: "$user" },
+      },
+    ]);
+
+    const mapped: PopularAuthor[  ] = result.map((p) => {
+      const detail = p.user;
+      p.email = detail.email;
+      p.name = detail.name;
+      p.id = detail._id;
+      return p;
+    });
+
+    return mapped;
+  }
 }
+
+// {
+//   _id: new ObjectId("64e44cbdf852d7924f030ebb"),
+//   totalLikes: 0,
+//   count: 2,
+//   sortOrder: 2,
+//   user: [
+//     {
+//       _id: new ObjectId("64e44cbdf852d7924f030ebb"),
+//       name: 'john',
+//       email: 'test@gmail.com'
+//     }
+//   ]
+// }

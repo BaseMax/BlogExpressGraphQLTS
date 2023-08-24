@@ -70,6 +70,14 @@ type Mutation {
   updatePost(input: UpdatePostInput!): Post!
 }
 
+type PopularAuthor {
+  countOfPosts: Int!
+  email: String!
+  id: String!
+  name: String!
+  totalLikes: Int!
+}
+
 type PopularTag {
   countOfUsed: Float!
   id: String!
@@ -92,6 +100,7 @@ type Query {
   getAllPosts: [Post!]!
   getAuthPayload(token: String!): AuthPayload
   getAuthorPosts(input: MongoId!): [Post!]
+  getPopularAuthors: [PopularAuthor!]!
   getPopularTags: PopularTag
   getPostById(input: MongoId!): Post
   getPostByTag(input: MongoId!): [Post!]
