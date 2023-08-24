@@ -10,3 +10,6 @@ export class AddTagTo {
   @IsMongoId()
   tagId: string;
 }
+
+@InputType()
+export class RemoveTagFrom extends AddTagTo{}

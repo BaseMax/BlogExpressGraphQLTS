@@ -65,6 +65,7 @@ type Mutation {
   login(input: LoginInput!): AuthPayload!
   publishPost(input: MongoId!): Post
   removePost(id: String!): Post!
+  removeTagFrom(input: RemoveTagFrom!): Post
   signup(input: SignupInput!): AuthPayload!
   updateComment(input: UpdateCommentInput!): Comment
   updatePost(input: UpdatePostInput!): Post!
@@ -109,6 +110,11 @@ type Query {
   getTagPostsByPopularity(input: MongoId!): [Post!]
   search(input: SearchInput!): [Post!]
   searchComment(input: SearchInput!): [Comment!]
+}
+
+input RemoveTagFrom {
+  postId: String!
+  tagId: String!
 }
 
 input SearchInput {

@@ -78,6 +78,15 @@ export class PostService {
     );
   }
 
+  async removeTagFromPost(
+    tagId: string,
+    postId: string
+  ): Promise<PostDocument | null> {
+    return await PostModel.findByIdAndUpdate(postId, {
+      $pull: { tags: tagId },
+    });
+  }
+
   async updatePost(
     updatePostInput: UpdatePostInput
   ): Promise<PostDocument | null> {
