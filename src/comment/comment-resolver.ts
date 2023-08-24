@@ -69,6 +69,11 @@ export class CommentResolver {
     return await this.commentService.search(searchInput.keyword);
   }
 
+  @Query(() => [Comment], { nullable: true })
+  async getCommentReplies(@Arg("input") mongo: MongoId) {
+    return this.commentService.getCommentReplies(mongo.id )
+  }
+
   @Authorized()
   @Mutation(() => Comment, { nullable: true })
   async deleteComment(@Arg("input") mongo: MongoId, @Ctx() ctx: ContextType) {

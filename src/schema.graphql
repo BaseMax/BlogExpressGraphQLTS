@@ -100,6 +100,7 @@ type Query {
   getAllPosts: [Post!]!
   getAuthPayload(token: String!): AuthPayload
   getAuthorPosts(input: MongoId!): [Post!]
+  getCommentReplies(input: MongoId!): [Comment!]
   getPopularAuthors: [PopularAuthor!]!
   getPopularTags: PopularTag
   getPostById(input: MongoId!): Post

@@ -128,6 +128,10 @@ export class CommentService {
       content: { $regex: keyword, $options: "i" },
     });
   }
+
+  async getCommentReplies(commentId: string): Promise<CommentDocument[]> {
+    return CommentModel.find({ repliedTo: commentId });
+  }
   async deleteComment(id: string): Promise<CommentDocument | null> {
     return await CommentModel.findByIdAndDelete(id);
   }
