@@ -25,6 +25,12 @@ export class PostService {
     return PostModel.findById(id);
   }
 
+  async getMostLikedPosts(): Promise<PostDocument[]> {
+    return PostModel.find().sort({
+      countOfLikes: -1,
+    });
+  }
+
   async getAuthorPosts(authorId: string): Promise<PostDocument[]> {
     return PostModel.find({
       authorId: authorId,

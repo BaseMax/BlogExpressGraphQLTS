@@ -132,6 +132,12 @@ export class PostResolver {
 
   @Authorized()
   @Query(() => [Post], { nullable: true })
+  async getMostLikedPosts() {
+    return await this.postService.getMostLikedPosts()
+  }
+
+  @Authorized()
+  @Query(() => [Post], { nullable: true })
   async getTagPostsByPopularity(@Arg("input") mongo: MongoId) {
     return await this.postService.getTagPostsByPopularity(mongo.id);
   }
