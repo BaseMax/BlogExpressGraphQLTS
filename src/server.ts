@@ -20,8 +20,12 @@ dotenv.config();
 
 const port = process.env.Port || 3000;
 const dbUri = process.env.DATABASE_URI as string;
+type ApolloServerInfo = {
+  apolloServer: ApolloServer<ContextType>;
+  url: string;
+};
 
-export async function createServer() {
+export async function createServer(): Promise<ApolloServerInfo> {
   const schema = await buildSchema({
     resolvers: [
       AuthResolver,
@@ -38,12 +42,12 @@ export async function createServer() {
     validate: true,
   });
 
-  const server = new ApolloServer<ContextType>({
+  const apolloServer = new ApolloServer<ContextType>({
     schema,
     formatError: formatError,
   });
 
-  const { url } = await startStandaloneServer(server, {
+  const { url } = await startStandaloneServer(apolloServer, {
     context: async ({ req, res }) => ({
       req: req as Request,
       res: res as Response,
@@ -55,6 +59,8 @@ export async function createServer() {
   mongoose.connect(dbUri, {}).then(() => {
     logger.info("successfully connected to mongodb...");
   });
+
+  return { apolloServer, url };
 }
 
 createServer().catch((error) => {

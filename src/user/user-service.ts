@@ -72,16 +72,3 @@ export class UserService {
   }
 }
 
-// {
-//   _id: new ObjectId("64e44cbdf852d7924f030ebb"),
-//   totalLikes: 0,
-//   count: 2,
-//   sortOrder: 2,
-//   user: [
-//     {
-//       _id: new ObjectId("64e44cbdf852d7924f030ebb"),
-//       name: 'john',
-//       email: 'test@gmail.com'
-//     }
-//   ]
-// }
