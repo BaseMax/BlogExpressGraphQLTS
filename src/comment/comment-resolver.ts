@@ -70,8 +70,13 @@ export class CommentResolver {
   }
 
   @Query(() => [Comment], { nullable: true })
+  async getPostComments(@Arg("input") mongo: MongoId) {
+    return await this.commentService.getPostComments(mongo.id);
+  }
+
+  @Query(() => [Comment], { nullable: true })
   async getCommentReplies(@Arg("input") mongo: MongoId) {
-    return this.commentService.getCommentReplies(mongo.id )
+    return this.commentService.getCommentReplies(mongo.id);
   }
 
   @Authorized()

@@ -20,6 +20,11 @@ export class CommentService {
     });
   }
 
+  async getPostComments(postId: string): Promise<CommentDocument[]> {
+    return CommentModel.find({
+      postId: postId,
+    });
+  }
   async findByIdOrThrow(id: string): Promise<CommentDocument | null> {
     const comment = await CommentModel.findById(id);
     if (!comment)
