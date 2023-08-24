@@ -15,7 +15,7 @@ import { injectable } from "tsyringe";
 import { UpdatePostInput } from "./dto/update-post.input";
 import { BadRequestException } from "../errors/bad-request-exception";
 import { MongoId } from "./dto/mongoId.input";
-import { AddTagTo } from "./dto/add-tag-to-post.inputs";
+import { AddTagTo, RemoveTagFrom } from "./dto/add-tag-to-post.inputs";
 import { TagService } from "../tag/tag-service";
 import { SearchInput } from "./dto/search.input";
 
@@ -131,9 +131,21 @@ export class PostResolver {
   }
 
   @Authorized()
+  @Mutation(() => Post, { nullable: true })
+  async removeTagFrom(@Arg("input") removeTagFrom: RemoveTagFrom) {
+    const tag = await this.tagService.findByIdOrThrow(removeTagFrom.tagId);
+    const post = await this.postService.findByIdOrThrow(removeTagFrom.postId);
+
+    return this.postService.removeTagFromPost(
+      removeTagFrom.tagId,
+      removeTagFrom.postId
+    );
+  }
+
+  @Authorized()
   @Query(() => [Post], { nullable: true })
   async getMostLikedPosts() {
-    return await this.postService.getMostLikedPosts()
+    return await this.postService.getMostLikedPosts();
   }
 
   @Authorized()
