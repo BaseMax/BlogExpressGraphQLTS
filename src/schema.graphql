@@ -99,6 +99,7 @@ type Post {
 
 type Query {
   getAllPosts: [Post!]!
+  getAllTags: [Tag!]
   getAuthPayload(token: String!): AuthPayload
   getAuthorPosts(input: MongoId!): [Post!]
   getCommentReplies(input: MongoId!): [Comment!]

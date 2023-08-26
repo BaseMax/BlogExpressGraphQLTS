@@ -37,6 +37,12 @@ export class TagResolver {
   }
 
   @Authorized()
+  @Query(() => [Tag], { nullable: true })
+  async getAllTags() {
+    return await this.tagService.getAllTags();
+  }
+
+  @Authorized()
   @Query(() => PopularTag, { nullable: true })
   async getPopularTags() {
     return await this.tagService.getPopularTag();

@@ -26,6 +26,10 @@ export class TagService {
 
     return tag;
   }
+
+  async getAllTags(): Promise<TagDocument[]> {
+    return await TagModel.find();
+  }
   async deleteTagFromPosts(tagId: string) {
     return PostModel.updateMany(
       {
