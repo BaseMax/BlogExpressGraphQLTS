@@ -71,14 +71,13 @@ The GraphQL schema and resolvers define the available queries and mutations for 
 
 ## GraphQL
 
-| Query/Mutation            | Description                                        |
-| ------------------------- | -------------------------------------------------- |
-| `likeComment`             | Like a comment.                                    |
-| `unlikeComment`           | Remove a like from a comment.                      |
-| `updatePost`              | Update an existing blog post.                      |
-| `getAllTags`              | Get a list of all available tags.                  |
-| `getTagPostsByPopularity` | Get posts of a specific tag ordered by popularity. |
-
+| Query/Mutation            | Description                                        | Screenshot |
+| ------------------------- | -------------------------------------------------- | ---- |
+| `likeComment`             | Like a comment.                                    | |
+| `unlikeComment`           | Remove a like from a comment.                      | |
+| `updatePost`              | Update an existing blog post.                      | |
+| `getAllTags`              | Get a list of all available tags.                  | |
+| `getTagPostsByPopularity` | Get posts of a specific tag ordered by popularity. | |
 | `getAllPosts` | Get a list of all blog posts. | ![get all posts](./screenshots/getAllPosts.png) |
 | `getPostById` | Get a single blog post by ID. | ![get post by id](./screenshots/getPostById.png) |
 | `login` | Authenticate a user and receive a token. | ![login](./screenshots/login.png) |
