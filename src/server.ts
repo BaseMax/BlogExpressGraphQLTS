@@ -16,6 +16,7 @@ import { Request, Response } from "express";
 import { TagResolver } from "./tag/tag-resolver";
 import { CommentResolver } from "./comment/comment-resolver";
 import { UserResolver } from "./user/user-resolver";
+import { Connection } from "mongoose";
 dotenv.config();
 
 const port = process.env.Port || 3000;
@@ -23,6 +24,7 @@ const dbUri = process.env.DATABASE_URI as string;
 type ApolloServerInfo = {
   apolloServer: ApolloServer<ContextType>;
   url: string;
+  mongooseConnection: any;
 };
 
 export async function createServer(): Promise<ApolloServerInfo> {
@@ -56,11 +58,9 @@ export async function createServer(): Promise<ApolloServerInfo> {
 
   logger.info(` 🚀 GraphQL server ready at: ${url}`);
 
-  mongoose.connect(dbUri, {}).then(() => {
-    logger.info("successfully connected to mongodb...");
-  });
+  let connection = await mongoose.connect(dbUri);
 
-  return { apolloServer, url };
+  return { apolloServer, url, mongooseConnection: connection };
 }
 
 createServer().catch((error) => {
